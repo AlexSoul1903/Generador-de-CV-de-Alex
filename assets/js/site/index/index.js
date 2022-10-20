@@ -217,7 +217,7 @@ function Crear_CV() {
             if (Divisor_Experiencia[i] != ",") {
                 const liExperiencia = document.createElement("li");
                 liExperiencia.setAttribute("class", "list-group-item");
-                liExperiencia.innerText = "" + Divisor_Skills[i];
+                liExperiencia.innerText = "" + Divisor_Experiencia[i];
                 ulExperiencia.appendChild(liExperiencia);
             }
         }
@@ -238,14 +238,12 @@ function Crear_CV() {
 
 
         divCard3.appendChild(h5Certificaciones);
-
         divCard3.appendChild(ulCertificaciones);
         for (i = 0; i < Divisor_Certificaciones.length; i++) {
-
             if (Divisor_Certificaciones[i] != ",") {
                 const liCertificaciones = document.createElement("li");
                 liCertificaciones.setAttribute("class", "list-group-item");
-                liCertificaciones.innerText = "" + Divisor_Skills[i];
+                liCertificaciones.innerText = "" + Divisor_Certificaciones[i];
                 ulCertificaciones.appendChild(liCertificaciones);
 
             }
