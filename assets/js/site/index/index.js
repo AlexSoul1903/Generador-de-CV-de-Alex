@@ -151,7 +151,10 @@ function validate() {
     let isValid = true;
     const t = translations[currentLang];
     
-    Object.keys(elements).forEach(key => {
+    // Only validate form input fields, not container elements
+    const inputKeys = ['nombre', 'direccion', 'correo', 'telefono', 'pagina', 'idiomas', 'empleos', 'educacion', 'skill', 'certificaciones', 'resumen'];
+    
+    inputKeys.forEach(key => {
         const element = elements[key];
         const value = values[key];
         
