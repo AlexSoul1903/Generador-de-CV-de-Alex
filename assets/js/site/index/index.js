@@ -9,6 +9,7 @@ const translations = {
         formTitle: "Ingresa tus datos",
         formSubtitle: "Completa todos los campos para generar tu CV",
         name: "Nombre Completo",
+        photo: "Foto de Perfil",
         address: "Dirección",
         email: "Correo Electrónico",
         phone: "Teléfono",
@@ -40,6 +41,7 @@ const translations = {
         formTitle: "Enter Your Information",
         formSubtitle: "Fill in all fields to generate your CV",
         name: "Full Name",
+        photo: "Profile Photo",
         address: "Address",
         email: "Email Address",
         phone: "Phone Number",
@@ -71,11 +73,15 @@ const translations = {
 let currentLang = 'es';
 
 // DOM Elements
+let profilePhotoData = null;
+
 const elements = {
     nombre: document.getElementById("nombre"),
     direccion: document.getElementById("direccion"),
     correo: document.getElementById("correo"),
     telefono: document.getElementById("telefono"),
+    foto: document.getElementById("foto"),
+    fotoPreview: document.getElementById("foto-preview"),
     pagina: document.getElementById("pagina"),
     idiomas: document.getElementById("idiomas"),
     empleos: document.getElementById("empleos"),
@@ -192,7 +198,44 @@ function parseList(text) {
     return text.split(',').map(item => item.trim()).filter(item => item.length > 0);
 }
 
-// Create CV
+
+// Delete CV
+function deleteCV(button) {
+    const t = translations[currentLang];
+    
+    if (confirm(t.confirmDelete)) {
+        const cvCard = button.closest('.col-12');
+        cvCard.style.opacity = '0';
+        cvCard.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            cvCard.remove();
+        }, 300);
+    }
+}
+
+// Escape HTML to prevent XSS
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+// Image Upload Handler
+function initImageUpload() {
+    elements.foto.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                profilePhotoData = event.target.result;
+                elements.fotoPreview.innerHTML = `<img src="${profilePhotoData}" class="img-thumbnail" style="max-width: 120px; max-height: 120px; border-radius: 50%; object-fit: cover;">`;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+}
+
+// Create CV with regional format differences
 function Crear_CV() {
     const t = translations[currentLang];
     
@@ -205,11 +248,28 @@ function Crear_CV() {
     // Create CV card
     const cvCard = document.createElement('div');
     cvCard.className = 'col-12 col-lg-8 mx-auto';
-    cvCard.innerHTML = `
-        <div class="cv-card">
+    
+    // FORMAT DIFFERENCES:
+    // ✅ Spanish CV: Includes profile photo, contact info on left sidebar, chronological order
+    // ❌ English CV: NO profile photo (standard practice for US/UK/CA/AU), experience first, reverse chronological
+    const isHispanicFormat = currentLang === 'es';
+    
+    let photoHeader = '';
+    if (isHispanicFormat && profilePhotoData) {
+        photoHeader = `<img src="${profilePhotoData}" class="cv-photo" alt="Profile Photo">`;
+    }
+    
+    let cvLayout = '';
+    if (isHispanicFormat) {
+        // HISPANIC / LATIN AMERICA CV FORMAT
+        cvLayout = `
+        <div class="cv-card cv-format-hispanic">
             <div class="cv-header">
-                <h2 class="cv-name">${escapeHtml(values.nombre)}</h2>
-                <p class="cv-title">${currentLang === 'es' ? 'Profesional' : 'Professional'}</p>
+                ${photoHeader}
+                <div>
+                    <h2 class="cv-name">${escapeHtml(values.nombre)}</h2>
+                    <p class="cv-title">Profesional</p>
+                </div>
             </div>
             <div class="cv-body">
                 <div class="cv-sidebar">
@@ -318,7 +378,106 @@ function Crear_CV() {
                 ${t.delete}
             </button>
         </div>
-    `;
+        `;
+    } else {
+        // ANGLO / INTERNATIONAL CV FORMAT (RESUME)
+        // NO PHOTO, Experience first, different structure
+        cvLayout = `
+        <div class="cv-card cv-format-anglo">
+            <div class="cv-header text-center">
+                <h2 class="cv-name">${escapeHtml(values.nombre)}</h2>
+                <div class="cv-contact-inline">
+                    <span>${escapeHtml(values.correo)}</span> | 
+                    <span>${escapeHtml(values.telefono)}</span> | 
+                    <span>${escapeHtml(values.pagina)}</span> |
+                    <span>${escapeHtml(values.direccion)}</span>
+                </div>
+            </div>
+            <div class="cv-body cv-body-fullwidth">
+                <div class="cv-section">
+                    <h3 class="cv-section-title">
+                        <i class="bi bi-file-person"></i>
+                        ${t.summary}
+                    </h3>
+                    <div class="cv-summary">
+                        ${escapeHtml(values.resumen)}
+                    </div>
+                </div>
+                
+                <div class="cv-section">
+                    <h3 class="cv-section-title">
+                        <i class="bi bi-briefcase-fill"></i>
+                        ${t.experience}
+                    </h3>
+                    <ul class="cv-list">
+                        ${parseList(values.empleos).reverse().map(job => `
+                            <li class="cv-list-item">${escapeHtml(job)}</li>
+                        `).join('')}
+                    </ul>
+                </div>
+                
+                <div class="cv-section">
+                    <h3 class="cv-section-title">
+                        <i class="bi bi-mortarboard-fill"></i>
+                        ${t.education}
+                    </h3>
+                    <ul class="cv-list">
+                        ${parseList(values.educacion).reverse().map(edu => `
+                            <li class="cv-list-item">${escapeHtml(edu)}</li>
+                        `).join('')}
+                    </ul>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="cv-section">
+                            <h3 class="cv-section-title">
+                                <i class="bi bi-lightning-charge-fill"></i>
+                                ${t.skills}
+                            </h3>
+                            <ul class="cv-list">
+                                ${parseList(values.skill).map(skill => `
+                                    <li class="cv-list-item">${escapeHtml(skill)}</li>
+                                `).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="cv-section">
+                            <h3 class="cv-section-title">
+                                <i class="bi bi-translate"></i>
+                                ${t.languages}
+                            </h3>
+                            <ul class="cv-list">
+                                ${parseList(values.idiomas).map(lang => `
+                                    <li class="cv-list-item">${escapeHtml(lang)}</li>
+                                `).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="cv-section">
+                    <h3 class="cv-section-title">
+                        <i class="bi bi-award-fill"></i>
+                        ${t.certifications}
+                    </h3>
+                    <ul class="cv-list">
+                        ${parseList(values.certificaciones).map(cert => `
+                            <li class="cv-list-item">${escapeHtml(cert)}</li>
+                        `).join('')}
+                    </ul>
+                </div>
+            </div>
+            <button class="btn-delete" onclick="deleteCV(this)">
+                <i class="bi bi-trash-fill"></i>
+                ${t.delete}
+            </button>
+        </div>
+        `;
+    }
+    
+    cvCard.innerHTML = cvLayout;
     
     elements.cvContainer.appendChild(cvCard);
     Cls();
@@ -327,29 +486,23 @@ function Crear_CV() {
     cvCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-// Delete CV
-function deleteCV(button) {
-    const t = translations[currentLang];
+// Clear form with photo reset
+function Cls() {
+    Object.values(elements).forEach(element => {
+        if (element && element.tagName !== 'DIV') {
+            element.value = "";
+            element.classList.remove("buen-input", "error-feo");
+        }
+    });
     
-    if (confirm(t.confirmDelete)) {
-        const cvCard = button.closest('.col-12');
-        cvCard.style.opacity = '0';
-        cvCard.style.transform = 'scale(0.95)';
-        setTimeout(() => {
-            cvCard.remove();
-        }, 300);
-    }
-}
-
-// Escape HTML to prevent XSS
-function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
+    profilePhotoData = null;
+    elements.fotoPreview.innerHTML = '';
+    elements.nombre.focus();
 }
 
 // Initialize on DOM load
 document.addEventListener('DOMContentLoaded', () => {
     initLanguageToggle();
+    initImageUpload();
     setLanguage('es');
 });
