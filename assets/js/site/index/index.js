@@ -1,473 +1,352 @@
-const input_nombre = document.getElementById("nombre");
+// Modern CV Generator with i18n Support
+// ==========================================
 
-const input_direccion = document.getElementById("direccion");
-const input_correo = document.getElementById("correo");
+// Translations
+const translations = {
+    es: {
+        title: "Generador de CV Profesional",
+        subtitle: "Crea tu currículum vitae moderno y profesional en minutos",
+        formTitle: "Ingresa tus datos",
+        formSubtitle: "Completa todos los campos para generar tu CV",
+        name: "Nombre Completo",
+        address: "Dirección",
+        email: "Correo Electrónico",
+        phone: "Teléfono",
+        website: "Página Web / LinkedIn",
+        languages: "Idiomas",
+        experience: "Experiencia Laboral",
+        education: "Educación",
+        skills: "Habilidades",
+        certifications: "Certificaciones",
+        summary: "Perfil Profesional",
+        clear: "Limpiar",
+        generate: "Generar CV",
+        footer: "Hecho con pasión para profesionales como tú",
+        contact: "Contacto",
+        profile: "Perfil",
+        delete: "Eliminar",
+        confirmDelete: "¿Estás seguro de que quieres borrar este CV?",
+        fillFields: "Por favor completa todos los campos",
+        placeholderLanguages: "Ej: Español, Inglés, Francés",
+        placeholderExperience: "Ej: Desarrollador Web en Empresa X, 2020-2023",
+        placeholderEducation: "Ej: Licenciatura en Sistemas, Universidad Y",
+        placeholderSkills: "Ej: JavaScript, Python, Diseño UI/UX",
+        placeholderCertifications: "Ej: AWS Certified, Google Analytics",
+        placeholderSummary: "Describe brevemente tu perfil profesional..."
+    },
+    en: {
+        title: "Professional CV Generator",
+        subtitle: "Create your modern and professional resume in minutes",
+        formTitle: "Enter Your Information",
+        formSubtitle: "Fill in all fields to generate your CV",
+        name: "Full Name",
+        address: "Address",
+        email: "Email Address",
+        phone: "Phone Number",
+        website: "Website / LinkedIn",
+        languages: "Languages",
+        experience: "Work Experience",
+        education: "Education",
+        skills: "Skills",
+        certifications: "Certifications",
+        summary: "Professional Profile",
+        clear: "Clear",
+        generate: "Generate CV",
+        footer: "Made with passion for professionals like you",
+        contact: "Contact",
+        profile: "Profile",
+        delete: "Delete",
+        confirmDelete: "Are you sure you want to delete this CV?",
+        fillFields: "Please fill in all fields",
+        placeholderLanguages: "E.g: Spanish, English, French",
+        placeholderExperience: "E.g: Web Developer at Company X, 2020-2023",
+        placeholderEducation: "E.g: Bachelor's in Computer Science, University Y",
+        placeholderSkills: "E.g: JavaScript, Python, UI/UX Design",
+        placeholderCertifications: "E.g: AWS Certified, Google Analytics",
+        placeholderSummary: "Briefly describe your professional profile..."
+    }
+};
 
-const input_telefono = document.getElementById("telefono");
-const input_pag_web = document.getElementById("pagina");
+// Current language
+let currentLang = 'es';
 
-let input_idiomas = document.getElementById("idiomas");
-const input_empleos = document.getElementById("empleos");
-const input_educacion = document.getElementById("educacion");
+// DOM Elements
+const elements = {
+    nombre: document.getElementById("nombre"),
+    direccion: document.getElementById("direccion"),
+    correo: document.getElementById("correo"),
+    telefono: document.getElementById("telefono"),
+    pagina: document.getElementById("pagina"),
+    idiomas: document.getElementById("idiomas"),
+    empleos: document.getElementById("empleos"),
+    educacion: document.getElementById("educacion"),
+    skill: document.getElementById("skill"),
+    certificaciones: document.getElementById("certificaciones"),
+    resumen: document.getElementById("resumen"),
+    cvContainer: document.getElementById("cv-container")
+};
 
-const input_skill = document.getElementById("skill");
-const input_certificaciones = document.getElementById("certificaciones");
-const input_resumen = document.getElementById("resumen");
-
-function Crear_CV() {
-
-
-    const nombreContacto = input_nombre.value;
-    const nombreDireccion = input_direccion.value;
-
-    const nombreTelefono = input_telefono.value;
-    const nombrePagina = input_pag_web.value;
-
-    const nombreIdiomas = input_idiomas.value;
-
-    const nombreCorreo = input_correo.value;
-
-    const nombreEmpleos = input_empleos.value;
-    const nombreEducacion = input_educacion.value;
-
-    const nombreSkill = input_skill.value;
-
-    const nombreCertificacion = input_certificaciones.value;
-    const resumen = input_resumen.value;
-
-    const cvContainer = document.getElementById("cv-container");
-
-
-    if (validar()) {
-
-        const divrow = document.createElement("div");
-        divrow.setAttribute("class", "col-12 col-sm-12 col-md-5 col-lg-6 mt-5 offset-md-3");
-
-        const divPrincipal = document.createElement("div");
-        divPrincipal.setAttribute("class", "card");
-
-        const divHeader = document.createElement("div");
-        divHeader.setAttribute("class", "card-header bg-black text-bg-primary");
-
-        const h5TextHeader = document.createElement("h5");
-        h5TextHeader.setAttribute("class", "text-left text-dark fw-bold");
-        h5TextHeader.innerText = " ";
-
-        const divRow2 = document.createElement("div");
-        divRow2.setAttribute("class", "row");
-
-        const divCardBody = document.createElement("div");
-        divCardBody.setAttribute("class", "card-body bg-primary col-6");
-
-        const divCard2 = document.createElement("div");
-        divCard2.setAttribute("class", "card");
-
-        const h5nomText = document.createElement("h5");
-        h5nomText.setAttribute("class", "text-left text-dark fw-bold");
-        h5nomText.innerText = '' + nombreContacto;
-
-        const h5ContacText = document.createElement("h5");
-        h5ContacText.setAttribute("class", "text-left text-primary fw-semibold");
-        h5ContacText.innerText = "Contacto.";
-
-        const ulDatosCont = document.createElement("ul");
-        ulDatosCont.setAttribute("class", "list-group list-group-flush");
-
-        const liDireccion = document.createElement("li");
-        liDireccion.setAttribute("class", "list-group-item");
-        liDireccion.innerText = "Direccion: " + nombreDireccion;
-
-        const liTelefono = document.createElement("li");
-        liTelefono.setAttribute("class", "list-group-item");
-        liTelefono.innerText = "Telefono: " + nombreTelefono;
-
-        const liCorreo = document.createElement("li");
-        liCorreo.setAttribute("class", "list-group-item");
-        liCorreo.innerText = "Correo: " + nombreCorreo;
-
-        const liPagina = document.createElement("li");
-        liPagina.setAttribute("class", "list-group-item");
-        liPagina.innerText = "Pagina: " + nombrePagina;
-
-
-        const h5Idiomas = document.createElement("h5");
-        h5Idiomas.setAttribute("class", "text-left fw-semibold fw-semibold text-primary mt-4");
-        h5Idiomas.innerText = "Idiomas.";
-
-        const ulDatosIdioma = document.createElement("ul");
-        ulDatosIdioma.setAttribute("class", "list-group list-group-flush");
-
-        const divCardBody2 = document.createElement("div");
-        divCardBody2.setAttribute("class", "card-body bg-secondary col-6");
-
-        const divCard3 = document.createElement("div");
-        divCard3.setAttribute("class", "card");
-
-        const h5Resumen2 = document.createElement("h5");
-        h5Resumen2.setAttribute("class", "text-left fw-semibold fw-semibold text-primary mt-4");
-        h5Resumen2.innerText = "Resumen.";
-
-        const h5ResumenEscri = document.createElement("h5");
-        h5ResumenEscri.setAttribute("class", "text-left text-bg-light fw-light");
-        h5ResumenEscri.innerText = "" + resumen;
-
-        const h5Skill = document.createElement("h5");
-        h5Skill.setAttribute("class", "text-left fw-semibold fw-semibold text-primary mt-4");
-        h5Skill.innerText = "Skills.";
-
-        const ulSkills = document.createElement("ul");
-        ulSkills.setAttribute("class", "list-group list-group-flush");
-
-
-        const h5Experiencia = document.createElement("h5");
-        h5Experiencia.setAttribute("class", "text-left fw-semibold fw-semibold text-primary mt-4");
-        h5Experiencia.innerText = "Experiencia.";
-
-        const ulExperiencia = document.createElement("ul");
-        ulExperiencia.setAttribute("class", "list-group list-group-flush");
-
-        const h5Educacion = document.createElement("h5");
-        h5Educacion.setAttribute("class", "text-left fw-semibold fw-semibold text-primary mt-4");
-        h5Educacion.innerText = "Educación.";
-
-        const ulEducacion = document.createElement("ul");
-        ulEducacion.setAttribute("class", "list-group list-group-flush");
-
-        const h5Certificaciones = document.createElement("h5");
-        h5Certificaciones.setAttribute("class", "text-left fw-semibold fw-semibold text-primary mt-4");
-        h5Certificaciones.innerText = "Certificaciones";
-
-        const ulCertificaciones = document.createElement("ul");
-        ulCertificaciones.setAttribute("class", "list-group list-group-flush");
-
-        const eliminarBTN = document.createElement("button");
-        eliminarBTN.setAttribute("class", "btn btn-danger float-end mt-2 mx-2");
-        eliminarBTN.innerText = "Eliminar";
-        eliminarBTN.addEventListener("click", function() {
-
-            if (confirm("Estas seguros de que quieres borrar el CV?")) {
-
-                cvContainer.removeChild(divrow);
-
-
-            }
-
+// Initialize language toggle
+function initLanguageToggle() {
+    const langBtns = document.querySelectorAll('.lang-btn');
+    
+    langBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const lang = btn.getAttribute('data-lang');
+            setLanguage(lang);
         });
-
-        cvContainer.appendChild(divrow);
-        divrow.appendChild(divPrincipal);
-        divPrincipal.appendChild(divHeader);
-        divHeader.appendChild(h5TextHeader);
-        divPrincipal.appendChild(divRow2);
-        divRow2.appendChild(divCardBody);
-        divRow2.appendChild(divCardBody2);
-        divCardBody.appendChild(divCard2);
-        divCard2.appendChild(h5nomText);
-        divCard2.appendChild(h5ContacText);
-        divCard2.appendChild(ulDatosCont);
-        ulDatosCont.appendChild(liDireccion);
-        ulDatosCont.appendChild(liTelefono);
-        ulDatosCont.appendChild(liCorreo);
-        ulDatosCont.appendChild(liPagina);
-        divCard2.appendChild(h5Idiomas);
-        divCard2.appendChild(ulDatosIdioma);
-
-        const Divisor_Idiomas = nombreIdiomas.split(",");
-
-        const Divisor_Skills = nombreSkill.split(",");
-
-        const Divisor_Experiencia = nombreEmpleos.split(",");
-        const Divisor_Educacion = nombreEducacion.split(",");
-
-        const Divisor_Certificaciones = nombreCertificacion.split(",");
-
-
-        for (i = 0; i < Divisor_Idiomas.length; i++) {
-
-            if (Divisor_Idiomas[i] != ",") {
-                const liIdioma = document.createElement("li");
-                liIdioma.setAttribute("class", "list-group-item");
-                liIdioma.innerText = "" + Divisor_Idiomas[i];
-                ulDatosIdioma.appendChild(liIdioma);
-            }
-        }
-        divCardBody2.appendChild(divCard3);
-        divCardBody2.appendChild(eliminarBTN);
-
-        divCard3.appendChild(h5Resumen2);
-        divCard3.appendChild(h5ResumenEscri);
-        divCard3.appendChild(h5Skill);
-        divCard3.appendChild(ulSkills);
-
-        for (i = 0; i < Divisor_Skills.length; i++) {
-
-            if (Divisor_Skills[i] != ",") {
-                const liSkill = document.createElement("li");
-                liSkill.setAttribute("class", "list-group-item");
-                liSkill.innerText = "" + Divisor_Skills[i];
-                ulSkills.appendChild(liSkill);
-            }
-        }
-
-        divCard3.appendChild(h5Experiencia);
-        divCard3.appendChild(ulExperiencia);
-
-        for (i = 0; i < Divisor_Experiencia.length; i++) {
-
-            if (Divisor_Experiencia[i] != ",") {
-                const liExperiencia = document.createElement("li");
-                liExperiencia.setAttribute("class", "list-group-item");
-                liExperiencia.innerText = "" + Divisor_Experiencia[i];
-                ulExperiencia.appendChild(liExperiencia);
-            }
-        }
-
-        divCard3.appendChild(h5Educacion);
-        divCard3.appendChild(ulEducacion);
-
-        for (i = 0; i < Divisor_Educacion.length; i++) {
-
-            if (Divisor_Educacion[i] != ",") {
-                const liEducacion = document.createElement("li");
-                liEducacion.setAttribute("class", "list-group-item");
-                liEducacion.innerText = "" + Divisor_Educacion[i];
-                ulEducacion.appendChild(liEducacion);
-            }
-        }
-
-
-
-        divCard3.appendChild(h5Certificaciones);
-        divCard3.appendChild(ulCertificaciones);
-        for (i = 0; i < Divisor_Certificaciones.length; i++) {
-            if (Divisor_Certificaciones[i] != ",") {
-                const liCertificaciones = document.createElement("li");
-                liCertificaciones.setAttribute("class", "list-group-item");
-                liCertificaciones.innerText = "" + Divisor_Certificaciones[i];
-                ulCertificaciones.appendChild(liCertificaciones);
-
-            }
-        }
-
-
-
-
-
-
-
-
-
-
-        Cls();
-    } else {
-
-        alert("Debe llenar todos los campos");
-
-    }
-
-
+    });
 }
 
+// Set language
+function setLanguage(lang) {
+    currentLang = lang;
+    const t = translations[lang];
+    
+    // Update active button
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+    });
+    
+    // Update all translatable elements
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key]) {
+            el.textContent = t[key];
+        }
+    });
+    
+    // Update placeholders
+    elements.idiomas.placeholder = t.placeholderLanguages;
+    elements.empleos.placeholder = t.placeholderExperience;
+    elements.educacion.placeholder = t.placeholderEducation;
+    elements.skill.placeholder = t.placeholderSkills;
+    elements.certificaciones.placeholder = t.placeholderCertifications;
+    elements.resumen.placeholder = t.placeholderSummary;
+    
+    // Update html lang attribute
+    document.documentElement.lang = lang;
+}
 
+// Get input values
+function getValues() {
+    return {
+        nombre: elements.nombre.value.trim(),
+        direccion: elements.direccion.value.trim(),
+        correo: elements.correo.value.trim(),
+        telefono: elements.telefono.value.trim(),
+        pagina: elements.pagina.value.trim(),
+        idiomas: elements.idiomas.value.trim(),
+        empleos: elements.empleos.value.trim(),
+        educacion: elements.educacion.value.trim(),
+        skill: elements.skill.value.trim(),
+        certificaciones: elements.certificaciones.value.trim(),
+        resumen: elements.resumen.value.trim()
+    };
+}
+
+// Validate inputs
+function validate() {
+    const values = getValues();
+    let isValid = true;
+    const t = translations[currentLang];
+    
+    Object.keys(elements).forEach(key => {
+        const element = elements[key];
+        const value = values[key];
+        
+        if (!value || value === "") {
+            element.classList.add("error-feo");
+            element.classList.remove("buen-input");
+            isValid = false;
+        } else {
+            element.classList.remove("error-feo");
+            element.classList.add("buen-input");
+        }
+    });
+    
+    if (!isValid) {
+        alert(t.fillFields);
+    }
+    
+    return isValid;
+}
+
+// Clear form
 function Cls() {
-
-    input_nombre.value = "";
-    input_nombre.classList.remove("buen-input");
-    input_nombre.classList.remove("error-feo");
-    input_nombre.focus();
-
-    input_direccion.value = "";
-    input_direccion.classList.remove("buen-input");
-    input_direccion.classList.remove("error-feo");
-
-
-
-    input_correo.value = "";
-    input_correo.classList.remove("buen-input");
-    input_correo.classList.remove("error-feo");
-
-    input_telefono.value = "";
-    input_telefono.classList.remove("buen-input");
-    input_telefono.classList.remove("error-feo");
-
-    input_pag_web.value = "";
-    input_pag_web.classList.remove("buen-input");
-    input_pag_web.classList.remove("error-feo");
-
-    input_idiomas.value = "";
-    input_idiomas.classList.remove("buen-input");
-    input_idiomas.classList.remove("error-feo");
-
-    input_empleos.value = "";
-    input_empleos.classList.remove("buen-input");
-    input_empleos.classList.remove("error-feo");
-
-    input_educacion.value = "";
-    input_educacion.classList.remove("buen-input");
-    input_educacion.classList.remove("error-feo");
-
-
-    input_skill.value = "";
-    input_skill.classList.remove("buen-input");
-    input_skill.classList.remove("error-feo");
-
-    input_certificaciones.value = "";
-    input_certificaciones.classList.remove("buen-input");
-    input_certificaciones.classList.remove("error-feo");
-
-    input_resumen.value = "";
-    input_resumen.classList.remove("buen-input");
-    input_resumen.classList.remove("error-feo");
-
-
+    Object.values(elements).forEach(element => {
+        if (element && element.tagName !== 'DIV') {
+            element.value = "";
+            element.classList.remove("buen-input", "error-feo");
+        }
+    });
+    
+    elements.nombre.focus();
 }
 
-function validar() {
-
-    let esvalido = true;
-
-    const valor_nombre = input_nombre.value;
-
-    const valor_direccion = input_direccion.value;
-
-
-    const valor_correo = input_correo.value;
-
-    const valor_telefono = input_telefono.value;
-
-
-    const valor_pag_web = input_pag_web.value;
-
-
-    const valor_idiomas = input_idiomas.value;
-
-    const valor_empleos = input_empleos.value;
-
-
-    const valor_educacion = input_educacion.value;
-
-    const valor_skill = input_skill.value;
-
-
-
-    const valor_certificaciones = input_certificaciones.value;
-
-
-    const valor_resumen = input_resumen.value;
-
-
-
-    if (valor_nombre == "" || valor_nombre == null || valor_nombre == undefined) {
-
-        input_nombre.classList.add("error-feo");
-        input_nombre.classList.remove("buen-input");
-        esvalido = false;
-    } else {
-
-        input_nombre.classList.remove("error-feo");
-        input_nombre.classList.add("buen-input");
-    }
-
-    if (valor_direccion == "" || valor_direccion == null || valor_direccion == undefined) {
-        esvalido = false;
-        input_direccion.classList.add("error-feo");
-        input_direccion.classList.remove("buen-input");
-    } else {
-
-        input_direccion.classList.remove("error-feo");
-        input_direccion.classList.add("buen-input");
-    }
-
-    if (valor_correo == "" || valor_correo == null || valor_correo == undefined) {
-        esvalido = false;
-        input_correo.classList.add("error-feo");
-        input_correo.classList.remove("buen-input");
-    } else {
-
-        input_correo.classList.remove("error-feo");
-        input_correo.classList.add("buen-input");
-    }
-
-    if (valor_telefono == "" || valor_telefono == null || valor_telefono == undefined) {
-        esvalido = false;
-        input_telefono.classList.add("error-feo");
-        input_telefono.classList.remove("buen-input");
-    } else {
-
-        input_telefono.classList.remove("error-feo");
-        input_telefono.classList.add("buen-input");
-    }
-
-    if (valor_pag_web == "" || valor_pag_web == null || valor_pag_web == undefined) {
-        esvalido = false;
-        input_pag_web.classList.add("error-feo");
-        input_pag_web.classList.remove("buen-input");
-    } else {
-
-        input_pag_web.classList.remove("error-feo");
-        input_pag_web.classList.add("buen-input");
-    }
-
-
-    if (valor_idiomas == "" || valor_idiomas == null || valor_idiomas == undefined) {
-        esvalido = false;
-        input_idiomas.classList.add("error-feo");
-        input_idiomas.classList.remove("buen-input");
-    } else {
-
-        input_idiomas.classList.remove("error-feo");
-        input_idiomas.classList.add("buen-input");
-    }
-
-    if (valor_empleos == "" || valor_empleos == null || valor_empleos == undefined) {
-        esvalido = false;
-        input_empleos.classList.add("error-feo");
-        input_empleos.classList.remove("buen-input");
-    } else {
-
-        input_empleos.classList.remove("error-feo");
-        input_empleos.classList.add("buen-input");
-    }
-
-    if (valor_educacion == "" || valor_educacion == null || valor_educacion == undefined) {
-        esvalido = false;
-        input_educacion.classList.add("error-feo");
-        input_educacion.classList.remove("buen-input");
-    } else {
-
-        input_educacion.classList.remove("error-feo");
-        input_educacion.classList.add("buen-input");
-    }
-
-    if (valor_skill == "" || valor_skill == null || valor_skill == undefined) {
-        esvalido = false;
-        input_skill.classList.add("error-feo");
-        input_skill.classList.remove("buen-input");
-    } else {
-
-        input_skill.classList.remove("error-feo");
-        input_skill.classList.add("buen-input");
-    }
-
-    if (valor_certificaciones == "" || valor_certificaciones == null || valor_certificaciones == undefined) {
-        esvalido = false;
-        input_certificaciones.classList.add("error-feo");
-        input_certificaciones.classList.remove("buen-input");
-    } else {
-
-        input_certificaciones.classList.remove("error-feo");
-        input_certificaciones.classList.add("buen-input");
-    }
-
-    if (valor_resumen == "" || valor_resumen == null || valor_resumen == undefined) {
-        esvalido = false;
-        input_resumen.classList.add("error-feo");
-        input_resumen.classList.remove("buen-input");
-    } else {
-
-        input_resumen.classList.remove("error-feo");
-        input_resumen.classList.add("buen-input");
-    }
-    return esvalido;
-
+// Parse comma-separated values
+function parseList(text) {
+    return text.split(',').map(item => item.trim()).filter(item => item.length > 0);
 }
+
+// Create CV
+function Crear_CV() {
+    const t = translations[currentLang];
+    
+    if (!validate()) {
+        return;
+    }
+    
+    const values = getValues();
+    
+    // Create CV card
+    const cvCard = document.createElement('div');
+    cvCard.className = 'col-12 col-lg-8 mx-auto';
+    cvCard.innerHTML = `
+        <div class="cv-card">
+            <div class="cv-header">
+                <h2 class="cv-name">${escapeHtml(values.nombre)}</h2>
+                <p class="cv-title">${currentLang === 'es' ? 'Profesional' : 'Professional'}</p>
+            </div>
+            <div class="cv-body">
+                <div class="cv-sidebar">
+                    <div class="cv-section">
+                        <h3 class="cv-section-title">
+                            <i class="bi bi-person-lines-fill"></i>
+                            ${t.contact}
+                        </h3>
+                        <div class="cv-contact-list">
+                            <div class="cv-contact-item">
+                                <i class="bi bi-geo-alt-fill"></i>
+                                <span>${escapeHtml(values.direccion)}</span>
+                            </div>
+                            <div class="cv-contact-item">
+                                <i class="bi bi-envelope-fill"></i>
+                                <span>${escapeHtml(values.correo)}</span>
+                            </div>
+                            <div class="cv-contact-item">
+                                <i class="bi bi-phone-fill"></i>
+                                <span>${escapeHtml(values.telefono)}</span>
+                            </div>
+                            ${values.pagina ? `
+                            <div class="cv-contact-item">
+                                <i class="bi bi-globe"></i>
+                                <span>${escapeHtml(values.pagina)}</span>
+                            </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                    
+                    <div class="cv-section">
+                        <h3 class="cv-section-title">
+                            <i class="bi bi-translate"></i>
+                            ${t.languages}
+                        </h3>
+                        <ul class="cv-list">
+                            ${parseList(values.idiomas).map(lang => `
+                                <li class="cv-list-item">${escapeHtml(lang)}</li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                    
+                    <div class="cv-section">
+                        <h3 class="cv-section-title">
+                            <i class="bi bi-lightning-charge-fill"></i>
+                            ${t.skills}
+                        </h3>
+                        <ul class="cv-list">
+                            ${parseList(values.skill).map(skill => `
+                                <li class="cv-list-item">${escapeHtml(skill)}</li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="cv-main">
+                    <div class="cv-section">
+                        <h3 class="cv-section-title">
+                            <i class="bi bi-file-person"></i>
+                            ${t.summary}
+                        </h3>
+                        <div class="cv-summary">
+                            ${escapeHtml(values.resumen)}
+                        </div>
+                    </div>
+                    
+                    <div class="cv-section">
+                        <h3 class="cv-section-title">
+                            <i class="bi bi-briefcase-fill"></i>
+                            ${t.experience}
+                        </h3>
+                        <ul class="cv-list">
+                            ${parseList(values.empleos).map(job => `
+                                <li class="cv-list-item">${escapeHtml(job)}</li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                    
+                    <div class="cv-section">
+                        <h3 class="cv-section-title">
+                            <i class="bi bi-mortarboard-fill"></i>
+                            ${t.education}
+                        </h3>
+                        <ul class="cv-list">
+                            ${parseList(values.educacion).map(edu => `
+                                <li class="cv-list-item">${escapeHtml(edu)}</li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                    
+                    <div class="cv-section">
+                        <h3 class="cv-section-title">
+                            <i class="bi bi-award-fill"></i>
+                            ${t.certifications}
+                        </h3>
+                        <ul class="cv-list">
+                            ${parseList(values.certificaciones).map(cert => `
+                                <li class="cv-list-item">${escapeHtml(cert)}</li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <button class="btn-delete" onclick="deleteCV(this)">
+                <i class="bi bi-trash-fill"></i>
+                ${t.delete}
+            </button>
+        </div>
+    `;
+    
+    elements.cvContainer.appendChild(cvCard);
+    Cls();
+    
+    // Scroll to CV
+    cvCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// Delete CV
+function deleteCV(button) {
+    const t = translations[currentLang];
+    
+    if (confirm(t.confirmDelete)) {
+        const cvCard = button.closest('.col-12');
+        cvCard.style.opacity = '0';
+        cvCard.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            cvCard.remove();
+        }, 300);
+    }
+}
+
+// Escape HTML to prevent XSS
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+// Initialize on DOM load
+document.addEventListener('DOMContentLoaded', () => {
+    initLanguageToggle();
+    setLanguage('es');
+});

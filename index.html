@@ -1,192 +1,207 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="assets/css/lib/boostrap/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" type="text/css" href="assets/css/main.css">
-    <title>Generador de CV</title>
+    <title>CV Generator | Generador de CV</title>
 </head>
 
-<body class="colorb">
+<body>
+    <!-- Language Toggle -->
+    <div class="language-toggle">
+        <button id="lang-es" class="lang-btn active" data-lang="es">ES</button>
+        <button id="lang-en" class="lang-btn" data-lang="en">EN</button>
+    </div>
 
-    <header>
+    <header class="hero-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12 text-center">
+                    <h1 class="hero-title">
+                        <i class="bi bi-file-earmark-person-fill"></i>
+                        <span data-i18n="title">Generador de CV Profesional</span>
+                    </h1>
+                    <p class="hero-subtitle" data-i18n="subtitle">Crea tu currículum vitae moderno y profesional en minutos</p>
+                </div>
+            </div>
+        </div>
     </header>
 
-    <main class="container-fluid">
-
-
-        <div class="row">
-
-            <div class="col-12 col-sm-12 col-md-6 offset-md-3 mt-3">
-
-                <div class="card">
-
-                    <div class="card-header bg-black text-light">
-                        <h4 class="text-center">Ingrese sus datos</h4>
+    <main class="container main-container">
+        <!-- Form Section -->
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-10">
+                <div class="form-card glass-effect">
+                    <div class="card-header-custom">
+                        <h4 class="text-center mb-0">
+                            <i class="bi bi-pencil-square"></i>
+                            <span data-i18n="formTitle">Ingresa tus datos</span>
+                        </h4>
                     </div>
 
-                    <div class="row">
-                        <h5 class="card-title text-center mt-2">Complete todos los campos.</h5>
-
-                        <div class="card-body col-6 ">
-
-
-
-                            <div class="mb-3">
-                                <label for="nombre" class="form-label">Nombre:</label>
-                                <input id="nombre" type="text" class="form-control">
+                    <div class="card-body-custom">
+                        <p class="text-center text-muted mb-4" data-i18n="formSubtitle">Completa todos los campos para generar tu CV</p>
+                        
+                        <div class="row g-4">
+                            <!-- Personal Information -->
+                            <div class="col-md-6">
+                                <div class="input-group-custom">
+                                    <label for="nombre" class="form-label">
+                                        <i class="bi bi-person"></i>
+                                        <span data-i18n="name">Nombre Completo</span>
+                                    </label>
+                                    <input id="nombre" type="text" class="form-control modern-input" data-field="nombre">
+                                </div>
                             </div>
 
-                            <div class="mb-3">
-                                <label for="direccion" class="form-label">Dirección:</label>
-                                <input id="direccion" type="text" class="form-control">
+                            <div class="col-md-6">
+                                <div class="input-group-custom">
+                                    <label for="direccion" class="form-label">
+                                        <i class="bi bi-geo-alt"></i>
+                                        <span data-i18n="address">Dirección</span>
+                                    </label>
+                                    <input id="direccion" type="text" class="form-control modern-input" data-field="direccion">
+                                </div>
                             </div>
 
-                            <div class="mb-3">
-                                <label for="correo" class="form-label">Correo:</label>
-                                <input id="correo" type="text" class="form-control">
+                            <div class="col-md-6">
+                                <div class="input-group-custom">
+                                    <label for="correo" class="form-label">
+                                        <i class="bi bi-envelope"></i>
+                                        <span data-i18n="email">Correo Electrónico</span>
+                                    </label>
+                                    <input id="correo" type="email" class="form-control modern-input" data-field="correo">
+                                </div>
                             </div>
 
-                            <div class="mb-3">
-                                <label for="telefono" class="form-label">Teléfono:</label>
-                                <input id="telefono" type="text" class="form-control">
+                            <div class="col-md-6">
+                                <div class="input-group-custom">
+                                    <label for="telefono" class="form-label">
+                                        <i class="bi bi-phone"></i>
+                                        <span data-i18n="phone">Teléfono</span>
+                                    </label>
+                                    <input id="telefono" type="tel" class="form-control modern-input" data-field="telefono">
+                                </div>
                             </div>
 
-                            <div class="mb-3">
-                                <label for="pagina" class="form-label">Página web:</label>
-                                <input id="pagina" type="text" class="form-control">
+                            <div class="col-md-6">
+                                <div class="input-group-custom">
+                                    <label for="pagina" class="form-label">
+                                        <i class="bi bi-globe"></i>
+                                        <span data-i18n="website">Página Web / LinkedIn</span>
+                                    </label>
+                                    <input id="pagina" type="url" class="form-control modern-input" data-field="pagina">
+                                </div>
                             </div>
 
-                            <div class="mb-3">
-                                <label for="idiomas" class="form-label">Idiomas:</label>
-                                <input id="idiomas" type="text" class="form-control">
+                            <div class="col-md-6">
+                                <div class="input-group-custom">
+                                    <label for="idiomas" class="form-label">
+                                        <i class="bi bi-translate"></i>
+                                        <span data-i18n="languages">Idiomas</span>
+                                    </label>
+                                    <input id="idiomas" type="text" class="form-control modern-input" data-field="idiomas" placeholder="Ej: Español, Inglés, Francés">
+                                </div>
                             </div>
-
                         </div>
 
+                        <hr class="my-4 divider-custom">
 
-                        <div class="card-body col-6">
-                            <div class="mb-3">
-                                <label for="empleos" class="form-label">Empleos:</label>
-                                <input id="empleos" type="text" class="form-control">
+                        <!-- Professional Information -->
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <div class="input-group-custom">
+                                    <label for="empleos" class="form-label">
+                                        <i class="bi bi-briefcase"></i>
+                                        <span data-i18n="experience">Experiencia Laboral</span>
+                                    </label>
+                                    <input id="empleos" type="text" class="form-control modern-input" data-field="empleos" placeholder="Ej: Desarrollador Web en Empresa X, 2020-2023">
+                                </div>
                             </div>
 
-                            <div class="mb-3">
-                                <label for="educacion" class="form-label">Educación:</label>
-                                <input id="educacion" type="text" class="form-control">
+                            <div class="col-md-6">
+                                <div class="input-group-custom">
+                                    <label for="educacion" class="form-label">
+                                        <i class="bi bi-mortarboard"></i>
+                                        <span data-i18n="education">Educación</span>
+                                    </label>
+                                    <input id="educacion" type="text" class="form-control modern-input" data-field="educacion" placeholder="Ej: Licenciatura en Sistemas, Universidad Y">
+                                </div>
                             </div>
 
-                            <div class="mb-3">
-                                <label for="skill" class="form-label">Skill:</label>
-                                <input id="skill" type="text" class="form-control">
+                            <div class="col-md-6">
+                                <div class="input-group-custom">
+                                    <label for="skill" class="form-label">
+                                        <i class="bi bi-lightning-charge"></i>
+                                        <span data-i18n="skills">Habilidades</span>
+                                    </label>
+                                    <input id="skill" type="text" class="form-control modern-input" data-field="skill" placeholder="Ej: JavaScript, Python, Diseño UI/UX">
+                                </div>
                             </div>
 
-                            <div class="mb-3">
-                                <label for="certificaciones" class="form-label">Certificaciones:</label>
-                                <input id="certificaciones" type="text" class="form-control">
+                            <div class="col-md-6">
+                                <div class="input-group-custom">
+                                    <label for="certificaciones" class="form-label">
+                                        <i class="bi bi-award"></i>
+                                        <span data-i18n="certifications">Certificaciones</span>
+                                    </label>
+                                    <input id="certificaciones" type="text" class="form-control modern-input" data-field="certificaciones" placeholder="Ej: AWS Certified, Google Analytics">
+                                </div>
                             </div>
 
-                            <div class="mb-3">
-                                <label for="resumen" class="form-label">Resumen:</label>
-                                <input id="resumen" type="text" class="form-control">
+                            <div class="col-12">
+                                <div class="input-group-custom">
+                                    <label for="resumen" class="form-label">
+                                        <i class="bi bi-card-text"></i>
+                                        <span data-i18n="summary">Perfil Profesional</span>
+                                    </label>
+                                    <textarea id="resumen" class="form-control modern-input textarea-modern" data-field="resumen" rows="4" placeholder="Describe brevemente tu perfil profesional..."></textarea>
+                                </div>
                             </div>
+                        </div>
 
-
-                            <div>
-
-                                <button onclick="Crear_CV()" type="button" class="btn btn-outline-primary float-end">Guardar</button>
-                                <button onclick="Cls()" type="button" class="btn btn-outline-warning float-end me-2">Limpiar</button>
-                            </div>
+                        <!-- Action Buttons -->
+                        <div class="d-flex gap-2 justify-content-center mt-5">
+                            <button onclick="Cls()" type="button" class="btn btn-reset">
+                                <i class="bi bi-eraser"></i>
+                                <span data-i18n="clear">Limpiar</span>
+                            </button>
+                            <button onclick="Crear_CV()" type="button" class="btn btn-generate">
+                                <i class="bi bi-magic"></i>
+                                <span data-i18n="generate">Generar CV</span>
+                            </button>
                         </div>
                     </div>
                 </div>
-
-
             </div>
-
         </div>
 
-        </div>
-
-        <div class="row" id="cv-container">
-            <!--   <div class="col-12 col-sm-12 col-md-5 col-lg-6 mt-5 offset-md-3">
-                <div class="card">
-                    <div class=" card-header bg-black text-bg-primary">
-                        <h5 class="text-center fw-bold"> </h5>
-                    </div>
-
-                    <div class="row">
-                        <div class="card-body bg-primary col-6">
-                            <div class="card">
-                                <h5 class="text-left fw-bold">AlexSoul1903.</h5>
-                                <h5 class="text-left text-primary fw-semibold">Contacto</h5>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">Direccion: Calle Manuel Ramon Nuzes</li>
-                                    <li class="list-group-item">telefono: 809-995-3443</li>
-                                    <li class="list-group-item">Correo: 74164246+AlexSoul1903@users.noreply.github.com</li>
-                                    <li class="list-group-item">Pagina: Alex.com</li>
-                                </ul>
-                                <h5 class="text-left fw-semibold fw-semibold text-primary mt-4">Idiomas</h5>
-
-                                <ul class="list-group list-group-flush">
-
-                                    <li class="list-group-item">Español</li>
-                                    <li class="list-group-item">Ingles</li>
-                                    <li class="list-group-item">Frances</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="card-body bg-secondary col-6">
-                            <div class="card">
-                                <h5 class="text-left text-primary fw-semibold mt-4">Resumen.</h5>
-                                <h5 class="text-left text-bg-light fw-light">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Optio reiciendis enim eligendi est provident adipisci ut neque dolorem, sit repellat voluptatibus consequatur nisi nemo voluptatem corporis quae sapiente minima
-                                    velit.
-                                </h5>
-                                <h5 class="text-left fw-semibold fw-semibold text-primary mt-4 ">Skills</h5>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">Inteligente</li>
-                                    <li class="list-group-item">Creativo</li>
-                                    <li class="list-group-item">Agil</li>
-                                </ul>
-                                <h5 class="text-left fw-semibold fw-semibold text-primary mt-4">Experiencia.</h5>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">Best</li>
-                                    <li class="list-group-item">Banco Popular</li>
-                                    <li class="list-group-item">Gerente</li>
-                                </ul>
-                                <h5 class="text-left fw-semibold fw-semibold text-primary mt-4">Educacion.</h5>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">Itla</li>
-                                    <li class="list-group-item">Abc</li>
-                                    <li class="list-group-item">Piaget</li>
-                                </ul>
-                                <h5 class="text-left fw-semibold fw-semibold text-primary mt-4">Certificaciones.</h5>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">Master in web develotment</li>
-                                    <li class="list-group-item">Grado en software</li>
-                                    <li class="list-group-item">Udemy certification in web develotment</li>
-                                </ul>
-                            </div>
-                            <button type="button" class="btn btn-danger float-end mt-2 mx-2">Eliminar</button>
-                        </div>
-                    </div>
-                </div>
-
-            </div> -->
-
+        <!-- CV Preview Section -->
+        <div class="row mt-5" id="cv-container">
+            <!-- CVs will be generated here -->
         </div>
 
     </main>
 
-    <footer>
-
-
+    <footer class="footer-custom">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p class="mb-0">
+                        <i class="bi bi-heart-fill"></i>
+                        <span data-i18n="footer">Hecho con pasión para profesionales como tú</span>
+                    </p>
+                </div>
+            </div>
+        </div>
     </footer>
 
-    <script scr="assets/js/lib/bootstrap/bootstrap.min.js"></script>
+    <script src="assets/js/lib/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="assets/js/site/index/index.js"></script>
 
 </body>
